@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Tabloid.Data;
+using Tabloid;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +56,8 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // allows our api endpoints to access the database through Entity Framework Core
 builder.Services.AddNpgsql<TabloidDbContext>(builder.Configuration["TabloidDbConnectionString"]);
+
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
 
 var app = builder.Build();
 
