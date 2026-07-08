@@ -9,6 +9,12 @@ public class TabloidDbContext : IdentityDbContext<IdentityUser>
     private readonly IConfiguration _configuration;
 
     public DbSet<UserProfile> UserProfiles { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<Post> Posts { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+    public DbSet<PostTag> PostTags { get; set; }
+    public DbSet<Reaction> Reactions { get; set; }
 
 
     public TabloidDbContext(DbContextOptions<TabloidDbContext> context, IConfiguration config) : base(context)
@@ -144,6 +150,128 @@ public class TabloidDbContext : IdentityDbContext<IdentityUser>
                 ImageLocation = "https://robohash.org/hicnihilipsa.png?size=150x150&set=set1",
                 IdentityUserId = "d224a03d-bf0c-4a05-b728-e3521e45d74d",
             }
+        });
+
+        modelBuilder.Entity<Category>().HasData(new Category[]
+        {
+            new Category { Id = 1, Name = "Marine Affairs" },
+            new Category { Id = 2, Name = "Pirate Bounties" },
+            new Category { Id = 3, Name = "Grand Line Exploration" },
+            new Category { Id = 4, Name = "Devil Fruits" },
+            new Category { Id = 5, Name = "World Government" }
+        });
+
+        modelBuilder.Entity<Tag>().HasData(new Tag[]
+        {
+            new Tag { Id = 1, Name = "Straw Hats" },
+            new Tag { Id = 2, Name = "Yonko" },
+            new Tag { Id = 3, Name = "Marines" },
+            new Tag { Id = 4, Name = "Devil Fruit" },
+            new Tag { Id = 5, Name = "Wano" },
+            new Tag { Id = 6, Name = "Revolutionary Army" },
+            new Tag { Id = 7, Name = "Poneglyph" }
+        });
+
+        modelBuilder.Entity<Post>().HasData(new Post[]
+        {
+            new Post
+            {
+                Id = 1,
+                Title = "Monkey D. Luffy Declared the Fifth Emperor of the Sea",
+                Image = "https://picsum.photos/seed/luffy/600/400",
+                PubDate = new DateTime(2023, 8, 1),
+                UserId = 2,
+                CategoryId = 2,
+                Approved = true
+            },
+            new Post
+            {
+                Id = 2,
+                Title = "Wano Country Finally Liberated After the Raid on Onigashima",
+                Image = "https://picsum.photos/seed/wano/600/400",
+                PubDate = new DateTime(2023, 7, 15),
+                UserId = 3,
+                CategoryId = 3,
+                Approved = true
+            },
+            new Post
+            {
+                Id = 3,
+                Title = "The Gum-Gum Fruit Was a Mythical Zoan All Along",
+                Image = "https://picsum.photos/seed/nika/600/400",
+                PubDate = new DateTime(2023, 9, 10),
+                UserId = 4,
+                CategoryId = 4,
+                Approved = true
+            },
+            new Post
+            {
+                Id = 4,
+                Title = "Fleet Admiral Akainu Tightens His Grip on the New World",
+                Image = "https://picsum.photos/seed/marines/600/400",
+                PubDate = new DateTime(2023, 6, 20),
+                UserId = 5,
+                CategoryId = 1,
+                Approved = true
+            },
+            new Post
+            {
+                Id = 5,
+                Title = "Revolutionary Army Makes Its Move at the Reverie",
+                Image = "https://picsum.photos/seed/revolution/600/400",
+                PubDate = new DateTime(2023, 5, 30),
+                UserId = 6,
+                CategoryId = 5,
+                Approved = false
+            },
+            new Post
+            {
+                Id = 6,
+                Title = "Straw Hat Crew Rumored to Be Chasing the Final Road Poneglyph",
+                Image = "https://picsum.photos/seed/laughtale/600/400",
+                PubDate = new DateTime(2023, 9, 25),
+                UserId = 2,
+                CategoryId = 3,
+                Approved = false
+            }
+        });
+
+        modelBuilder.Entity<Comment>().HasData(new Comment[]
+        {
+            new Comment { Id = 1, PostId = 1, Subject = "Finally!", Content = "About time Luffy got the recognition he deserves." },
+            new Comment { Id = 2, PostId = 1, Subject = "Bounty check", Content = "3 billion berries?! That is absolutely insane." },
+            new Comment { Id = 3, PostId = 2, Subject = "Wano is free", Content = "Momonosuke will make a fine shogun for the land of Wano." },
+            new Comment { Id = 4, PostId = 2, Subject = "Kaido down", Content = "Never thought I would see the day a Yonko finally fell." },
+            new Comment { Id = 5, PostId = 3, Subject = "Mind blown", Content = "Hito Hito no Mi, Model: Nika. Nobody saw that coming." },
+            new Comment { Id = 6, PostId = 4, Subject = "Absolute Justice", Content = "Akainu's version of justice is genuinely terrifying." },
+            new Comment { Id = 7, PostId = 5, Subject = "Did Sabo do it?", Content = "The reports about Sabo at the Reverie are hard to believe." },
+            new Comment { Id = 8, PostId = 6, Subject = "Laugh Tale", Content = "If they reach it, the One Piece is real after all!" }
+        });
+
+        modelBuilder.Entity<PostTag>().HasData(new PostTag[]
+        {
+            new PostTag { Id = 1, PostId = 1, TagId = 1 },
+            new PostTag { Id = 2, PostId = 1, TagId = 2 },
+            new PostTag { Id = 3, PostId = 2, TagId = 5 },
+            new PostTag { Id = 4, PostId = 2, TagId = 2 },
+            new PostTag { Id = 5, PostId = 3, TagId = 4 },
+            new PostTag { Id = 6, PostId = 3, TagId = 1 },
+            new PostTag { Id = 7, PostId = 4, TagId = 3 },
+            new PostTag { Id = 8, PostId = 5, TagId = 6 },
+            new PostTag { Id = 9, PostId = 6, TagId = 1 },
+            new PostTag { Id = 10, PostId = 6, TagId = 7 }
+        });
+
+        modelBuilder.Entity<Reaction>().HasData(new Reaction[]
+        {
+            new Reaction { Id = 1, Emoji = "🔥", UserId = 3, PostId = 1 },
+            new Reaction { Id = 2, Emoji = "🎉", UserId = 4, PostId = 1 },
+            new Reaction { Id = 3, Emoji = "😲", UserId = 5, PostId = 2 },
+            new Reaction { Id = 4, Emoji = "👏", UserId = 2, PostId = 2 },
+            new Reaction { Id = 5, Emoji = "🤯", UserId = 6, PostId = 3 },
+            new Reaction { Id = 6, Emoji = "❤️", UserId = 2, PostId = 3 },
+            new Reaction { Id = 7, Emoji = "😨", UserId = 3, PostId = 4 },
+            new Reaction { Id = 8, Emoji = "🏴‍☠️", UserId = 4, PostId = 6 }
         });
     }
 }
