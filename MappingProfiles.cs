@@ -23,6 +23,8 @@ public class MappingProfile : Profile
         CreateMap<Reaction, ReactionDTO>().ReverseMap();
         CreateMap<CreateReactionDTO, Reaction>();
 
+        CreateMap<PostTag, PostTagDTO>().ReverseMap();
+
         CreateMap<UserProfile, UserProfileDTO>();
     }
 }

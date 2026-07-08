@@ -8,6 +8,7 @@ public class Post
     public DateTime PubDate { get; set; }
     public int UserId { get; set; }
     public int CategoryId { get; set; }
+    public bool Approved { get; set; }
     public UserProfile User { get; set; } = null;
     public Category Category { get; set; } = null;
     public List<Comment> Comments { get; set; } = new();
