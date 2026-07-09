@@ -8,3 +8,9 @@ public class PostTagDTO
     public PostDTO Post { get; set; } = null;
     public TagDTO Tag { get; set; } = null;
 }
+
+public class CreatePostTagDTO
+{
+    public int PostId { get; set; }
+    public int TagId { get; set; }
+}
