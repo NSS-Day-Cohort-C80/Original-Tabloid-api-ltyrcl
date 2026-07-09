@@ -1,3 +1,4 @@
+using System.Diagnostics.Tracing;
 using AutoMapper;
 using Tabloid.Models;
 using Tabloid.Models.DTO;
@@ -13,7 +14,7 @@ public class MappingProfile : Profile
         CreateMap<CreatePostDTO, Post>();
         CreateMap<Post, PostDetailsDTO>()
             .ForMember(destination => destination.UserName,
-            options => options.MapFrom(source => source.User.UserName));
+            options => options.MapFrom(source => source.User.IdentityUser.UserName));
 
         CreateMap<Category, CategoryDTO>().ReverseMap();
         CreateMap<CreateCategoryDTO, Category>();

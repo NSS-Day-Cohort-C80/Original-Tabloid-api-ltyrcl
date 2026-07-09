@@ -72,6 +72,55 @@ public class PostsController : ControllerBase
             return Ok(postDTOs);
     }
 
+
+    //view post details
+
+    [HttpGet("{id}")]
+    [Authorize]
+    public IActionResult GetById(int id)
+    {
+        Post post = _db.Posts
+            .Include(post => post.User)
+                .ThenInclude(user => user.IdentityUser)
+            .SingleOrDefault(post => post.Id == id);
+
+        if(post == null)
+        {
+            return NotFound();
+        }
+
+        PostDetailsDTO postDetailsDTO = _mapper.Map<PostDetailsDTO>(post);
+
+        return Ok(postDetailsDTO);
+    }
+
+    //create a post
+    
+    [HttpPost]
+    [Authorize]
+    public IActionResult Create(CreatePostDTO createPostDTO)
+    {
+        Post post = _mapper.Map<Post>(createPostDTO);
+
+        bool isAdmin = User.IsInRole("Admin");
+
+        if (isAdmin)
+        {
+            post.Approved = true;
+        }
+        else
+        {
+            post.Approved = false;
+        }
+
+        _db.Posts.Add(post);
+        _db.SaveChanges();
+
+        PostDTO postDTO = _mapper.Map<PostDTO>(post);
+
+        return CreatedAtAction(nameof(GetById), new { id = post.Id }, postDTO);
+    }
+
     //edit post
 
     [HttpPut("{id}")]
@@ -94,4 +143,44 @@ public class PostsController : ControllerBase
         return NoContent();
     }
 
+
+    //approve a post as an admin
+
+    [HttpPut("{id}/approve")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult Approve(int id)
+    {
+        Post post = _db.Posts.SingleOrDefault(post => post.Id == id);
+
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        post.Approved = true;
+
+        _db.SaveChanges();
+
+        return NoContent();
+    }
+
+    //un-approve a post as an admin
+
+    [HttpPut("{id}/unapprove")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult Unapprove(int id)
+    {
+        Post post = _db.Posts.SingleOrDefault(post => post.Id == id);
+
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        post.Approved = false;
+
+        _db.SaveChanges();
+
+        return NoContent();
+    }
 }
