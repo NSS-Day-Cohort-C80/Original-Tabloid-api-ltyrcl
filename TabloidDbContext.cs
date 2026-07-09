@@ -245,14 +245,14 @@ public class TabloidDbContext : IdentityDbContext<IdentityUser>
 
         modelBuilder.Entity<Comment>().HasData(new Comment[]
         {
-            new Comment { Id = 1, PostId = 1, Subject = "Finally!", Content = "About time Luffy got the recognition he deserves." },
-            new Comment { Id = 2, PostId = 1, Subject = "Bounty check", Content = "3 billion berries?! That is absolutely insane." },
-            new Comment { Id = 3, PostId = 2, Subject = "Wano is free", Content = "Momonosuke will make a fine shogun for the land of Wano." },
-            new Comment { Id = 4, PostId = 2, Subject = "Kaido down", Content = "Never thought I would see the day a Yonko finally fell." },
-            new Comment { Id = 5, PostId = 3, Subject = "Mind blown", Content = "Hito Hito no Mi, Model: Nika. Nobody saw that coming." },
-            new Comment { Id = 6, PostId = 4, Subject = "Absolute Justice", Content = "Akainu's version of justice is genuinely terrifying." },
-            new Comment { Id = 7, PostId = 5, Subject = "Did Sabo do it?", Content = "The reports about Sabo at the Reverie are hard to believe." },
-            new Comment { Id = 8, PostId = 6, Subject = "Laugh Tale", Content = "If they reach it, the One Piece is real after all!" }
+            new Comment { Id = 1, PostId = 1, UserId = 3, Subject = "Finally!", Content = "About time Luffy got the recognition he deserves." },
+            new Comment { Id = 2, PostId = 1, UserId = 4, Subject = "Bounty check", Content = "3 billion berries?! That is absolutely insane." },
+            new Comment { Id = 3, PostId = 2, UserId = 5, Subject = "Wano is free", Content = "Momonosuke will make a fine shogun for the land of Wano." },
+            new Comment { Id = 4, PostId = 2, UserId = 6, Subject = "Kaido down", Content = "Never thought I would see the day a Yonko finally fell." },
+            new Comment { Id = 5, PostId = 3, UserId = 2, Subject = "Mind blown", Content = "Hito Hito no Mi, Model: Nika. Nobody saw that coming." },
+            new Comment { Id = 6, PostId = 4, UserId = 3, Subject = "Absolute Justice", Content = "Akainu's version of justice is genuinely terrifying." },
+            new Comment { Id = 7, PostId = 5, UserId = 4, Subject = "Did Sabo do it?", Content = "The reports about Sabo at the Reverie are hard to believe." },
+            new Comment { Id = 8, PostId = 6, UserId = 5, Subject = "Laugh Tale", Content = "If they reach it, the One Piece is real after all!" }
         });
 
         modelBuilder.Entity<PostTag>().HasData(new PostTag[]
