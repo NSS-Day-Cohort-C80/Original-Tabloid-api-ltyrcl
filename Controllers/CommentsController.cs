@@ -76,6 +76,35 @@ public class CommentsController : ControllerBase
         return CreatedAtAction(nameof(GetComment), new { id = comment.Id }, _mapper.Map<CommentDTO>(comment));
     }
 
+    [HttpPut("{id}")]
+    [Authorize]
+    public IActionResult EditComment([FromBody] CommentDTO updatedComment, int id)
+    {
+        Comment? commentToUpdate = _dbContext.Comments.SingleOrDefault(c => c.Id == id);
+        if (commentToUpdate == null)
+        {
+            return NotFound();
+        }
+        if (id != updatedComment.Id)
+        {
+            return BadRequest();
+        }
+
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var currentProfile = _dbContext.UserProfiles.SingleOrDefault(up => up.IdentityUserId == identityUserId);
+
+        if (!User.IsInRole("Admin") && commentToUpdate.UserId != currentProfile?.Id)
+        {
+            return Forbid();
+        }
+
+        commentToUpdate.Subject = updatedComment.Subject;
+        commentToUpdate.Content = updatedComment.Content;
+
+        _dbContext.SaveChanges();
+        return NoContent();
+    }
+
     [HttpDelete("{id}")]
     [Authorize]
     public IActionResult DeleteComment(int id)
