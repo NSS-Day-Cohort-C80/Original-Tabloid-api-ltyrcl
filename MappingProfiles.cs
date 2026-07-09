@@ -25,6 +25,7 @@ public class MappingProfile : Profile
         CreateMap<CreateReactionDTO, Reaction>();
 
         CreateMap<PostTag, PostTagDTO>().ReverseMap();
+        CreateMap<CreatePostTagDTO, PostTag>();
 
         CreateMap<Emoji, EmojiDTO>().ReverseMap();
 
