@@ -14,6 +14,7 @@ public class TabloidDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Post> Posts { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<PostTag> PostTags { get; set; }
+    public DbSet<Emoji> Emojis { get; set; }
     public DbSet<Reaction> Reactions { get; set; }
 
 
@@ -268,16 +269,25 @@ public class TabloidDbContext : IdentityDbContext<IdentityUser>
             new PostTag { Id = 10, PostId = 6, TagId = 7 }
         });
 
+        modelBuilder.Entity<Emoji>().HasData(new Emoji[]
+        {
+            new Emoji { Id = 1, Symbol = "🔥" },
+            new Emoji { Id = 2, Symbol = "🎉" },
+            new Emoji { Id = 3, Symbol = "🤯" },
+            new Emoji { Id = 4, Symbol = "❤️" },
+            new Emoji { Id = 5, Symbol = "🏴‍☠️" }
+        });
+
         modelBuilder.Entity<Reaction>().HasData(new Reaction[]
         {
-            new Reaction { Id = 1, Emoji = "🔥", UserId = 3, PostId = 1 },
-            new Reaction { Id = 2, Emoji = "🎉", UserId = 4, PostId = 1 },
-            new Reaction { Id = 3, Emoji = "😲", UserId = 5, PostId = 2 },
-            new Reaction { Id = 4, Emoji = "👏", UserId = 2, PostId = 2 },
-            new Reaction { Id = 5, Emoji = "🤯", UserId = 6, PostId = 3 },
-            new Reaction { Id = 6, Emoji = "❤️", UserId = 2, PostId = 3 },
-            new Reaction { Id = 7, Emoji = "😨", UserId = 3, PostId = 4 },
-            new Reaction { Id = 8, Emoji = "🏴‍☠️", UserId = 4, PostId = 6 }
+            new Reaction { Id = 1, EmojiId = 1, UserId = 3, PostId = 1 },
+            new Reaction { Id = 2, EmojiId = 2, UserId = 4, PostId = 1 },
+            new Reaction { Id = 3, EmojiId = 3, UserId = 5, PostId = 2 },
+            new Reaction { Id = 4, EmojiId = 2, UserId = 2, PostId = 2 },
+            new Reaction { Id = 5, EmojiId = 3, UserId = 6, PostId = 3 },
+            new Reaction { Id = 6, EmojiId = 4, UserId = 2, PostId = 3 },
+            new Reaction { Id = 7, EmojiId = 3, UserId = 3, PostId = 4 },
+            new Reaction { Id = 8, EmojiId = 5, UserId = 4, PostId = 6 }
         });
     }
 }

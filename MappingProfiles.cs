@@ -1,5 +1,6 @@
 using AutoMapper;
 using Tabloid.Models;
+using Tabloid.Models.DTO;
 using Tabloid.Models.DTOs;
 
 namespace Tabloid;
@@ -24,6 +25,8 @@ public class MappingProfile : Profile
         CreateMap<CreateReactionDTO, Reaction>();
 
         CreateMap<PostTag, PostTagDTO>().ReverseMap();
+
+        CreateMap<Emoji, EmojiDTO>().ReverseMap();
 
         CreateMap<UserProfile, UserProfileDTO>();
     }
