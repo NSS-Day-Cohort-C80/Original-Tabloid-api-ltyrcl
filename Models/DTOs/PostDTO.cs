@@ -26,3 +26,13 @@ public class CreatePostDTO
     public int UserId { get; set; }
     public int CategoryId { get; set; }
 }
+
+public class PostDetailsDTO
+{
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string Image { get; set; }
+    public string Body { get; set; }
+    public DateTime PubDate { get; set; }
+    public string UserName { get; set; }
+}
