@@ -19,3 +19,9 @@ public class CreateReactionDTO
     public int UserId { get; set; }
     public int PostId { get; set; }
 }
+
+public class ReactionCountDTO
+{
+    public string Emoji { get; set; }
+    public int Count { get; set; }
+}
