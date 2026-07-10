@@ -31,6 +31,8 @@ public class PostsController : ControllerBase
     {
         IQueryable<Post> query = _db.Posts
             .Include(post => post.PostTags)
+            .Include(post => post.Category)
+            .Include(post => post.User)
             .Where(post => post.Approved)
             .Where(post => post.PubDate <= DateTime.Now);
 
