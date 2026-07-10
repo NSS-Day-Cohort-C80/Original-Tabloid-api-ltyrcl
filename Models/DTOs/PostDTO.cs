@@ -34,5 +34,6 @@ public class PostDetailsDTO
     public string Image { get; set; }
     public string Body { get; set; }
     public DateTime PubDate { get; set; }
+    public int CategoryId { get; set; }
     public string UserName { get; set; }
 }

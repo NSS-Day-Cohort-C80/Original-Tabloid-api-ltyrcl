@@ -6,6 +6,7 @@ using Npgsql.Internal;
 using Tabloid.Data;
 using Tabloid.Models;
 using Tabloid.Models.DTOs;
+using System.Security.Claims;
 namespace Tabloid.Controllers;
 
 [ApiController]
@@ -126,7 +127,7 @@ public class PostsController : ControllerBase
     //edit post
 
     [HttpPut("{id}")]
-    [Authorize(Roles = "User")]
+    [Authorize]
     public IActionResult Update(int id, PostDTO postDTO)
     {
         Post post = _db.Posts.SingleOrDefault(post => post.Id == id);
@@ -134,6 +135,13 @@ public class PostsController : ControllerBase
         if (post == null)
         {
             return NotFound();
+        }
+
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var currentProfile = _db.UserProfiles.SingleOrDefault(up => up.IdentityUserId == identityUserId);
+        if (!User.IsInRole("Admin") && post.UserId != currentProfile?.Id)
+        {
+            return Forbid();
         }
 
         post.Title = postDTO.Title;
