@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Tabloid.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
+using System.Security.Claims;
 
 namespace Tabloid.Controllers;
 
@@ -51,6 +52,23 @@ public class ReactionsController : ControllerBase
         return Ok(reactionCounts);
     }
 
+    [HttpGet("mine")]
+    [Authorize]
+    public IActionResult GetMyReaction(int postId)
+    {
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var profile = _dbContext.UserProfiles.SingleOrDefault(up => up.IdentityUserId == identityUserId);
+        if (profile == null)
+        {
+            return NotFound();
+        }
+
+        Reaction reaction = _dbContext.Reactions
+            .FirstOrDefault(r => r.PostId == postId && r.UserId == profile.Id);
+
+        return Ok(new { emojiId = reaction?.EmojiId });
+    }
+
 
     //create a reaction
 
@@ -73,7 +91,7 @@ public class ReactionsController : ControllerBase
     public IActionResult RemoveReaction(int postId, int emojiId, int userId)
     {
         Reaction reaction = _dbContext.Reactions
-            .SingleOrDefault(reaction =>
+            .FirstOrDefault(reaction =>
                 reaction.PostId == postId &&
                 reaction.EmojiId == emojiId &&
                 reaction.UserId == userId);
